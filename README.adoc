@@ -1,0 +1,54 @@
+= ps2j - PubSub To JSON
+
+A very narrowly scoped...
+
+
+== Challenge
+
+Using the Confluent managed GCP PubSub Source connector, messages come as JSON with two keys: `MessageData` and `AttributesMap`:
+
+[src,json]
+----
+{
+  "MessageData": "{  \"Id\": \"7\",  \"FirstName\": \"Samuel\",  \"LastName\": \"Horwitz\",  \"Nickname\": \"Shemp\",  \"Salary\": \"120\",  \"IngestionTime\": \"1991-01-01T00:00:00\"}",
+  "AttributesMap": {}
+}
+----
+
+The "value" of the message has been quote-escaped.
+Trying to forward the contents of the original message results in forwarding the entire escaped string.
+
+
+This project has two main goals:
+
+. Unpack the escaped `MessageData` and make available to other consumers
+. Allow for a discriminator key inside the message so that content-based routing to standalone topics may be done
+
+
+
+
+
+== Sample Data
+
+For this project, some Three Stooges data will serve as a test bed:
+
+[src,json]
+----
+{  "Id": "2",  "FirstName": "Moses",  "LastName": "Horwitz",  "Nickname": "Moe",  "Salary": "100",  "IngestionTime": "1970-01-01T00:00:00"}
+{  "Id": "2",  "FirstName": "Moses",  "LastName": "Horwitz",  "Nickname": "Moe",  "Salary": "110",  "IngestionTime": "1984-01-01T00:00:00"}
+{  "Id": "2",  "FirstName": "Moses",  "LastName": "Horwitz",  "Nickname": "Moe",  "Salary": "130",  "IngestionTime": "1999-01-01T00:00:00"}
+{  "Id": "3",  "FirstName": "Louis",  "LastName": "Feinberg",  "Nickname": "Larry",  "Salary": "100",  "IngestionTime": "1970-01-01T00:00:00"}
+{  "Id": "3",  "FirstName": "Louis",  "LastName": "Feinberg",  "Nickname": "Larry",  "Salary": "115",  "IngestionTime": "1984-01-01T00:00:00"}
+{  "Id": "5",  "FirstName": "Jerome",  "LastName": "Horwitz",  "Nickname": "Curly",  "Salary": "100",  "IngestionTime": "1970-01-01T00:00:00"}
+{  "Id": "5",  "FirstName": "Jerome",  "LastName": "Horwitz",  "Nickname": "Curly",  "Salary": "112",  "IngestionTime": "1982-01-01T00:00:00"}
+{  "Id": "5",  "FirstName": "Jerome",  "LastName": "Horwitz",  "Nickname": "Curly",  "Salary": "133",  "IngestionTime": "1987-01-01T00:00:00"}
+{  "Id": "5",  "FirstName": "Jerome",  "LastName": "Horwitz",  "Nickname": "Curly",  "Salary": "145",  "IngestionTime": "1995-01-01T00:00:00"}
+{  "Id": "7",  "FirstName": "Samuel",  "LastName": "Horwitz",  "Nickname": "Shemp",  "Salary": "100",  "IngestionTime": "1970-01-01T00:00:00"}
+{  "Id": "7",  "FirstName": "Samuel",  "LastName": "Horwitz",  "Nickname": "Shemp",  "Salary": "120",  "IngestionTime": "1991-01-01T00:00:00"}
+----
+
+
+
+
+
+
