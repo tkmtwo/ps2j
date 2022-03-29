@@ -50,4 +50,54 @@ For this project, some Three Stooges data will serve as a test bed:
 
 
 
+== Overview
+
+A GCP PubSub topic and subscription exist.
+
+A standard KC source connector pulls messages.
+
+This application reads from one landing topic, transforms the escaped data, and optionally demuxes based on
+a JSON path.
+
+
+[src, text]
+----
+
++-------------------+
+|                   |
+| GCP PubSub Topic  |
++-------------------+			.
+				 |								 +--------------------------+
+				 |								 |             		          |
+				 |								 |  Landing Topic           |
+				 +---------------->|  All sample data msgs    |
+			Via KC Source 			 |                          |
+			Connector						 +--------------------------+
+													               |                      +---------------------+
+																				 | 											|           	 	      |
+																				 | 											|   Ps2JApplication   |
+																				 +--------------------->|    (this app)       |
+																				  											|                     |
+																																+---------------------+
+																																						|
+																																						|   					+-------------------------+
+																																						+------------>|   TableTopic1	  	   	 	|
+																																						|							+-------------------------+
+																																					  |							+-------------------------+
+																																					  +------------>|   TableTopic2           |
+																																					  |							+-------------------------+
+																																					  |							+-------------------------+
+																																					  +------------>|   TableTopicN           |
+																																					  |							+-------------------------+
+																																					  |							+-------------------------+
+																																					  +------------>|   SinkTopic             |
+																																					   							+-------------------------+
+
+----
+
+In this sample, we demux on the value of the `FirstName` key.
+We demux messages for Moe and Larry into their own topics.
+There is also a general sink topic where *all* messages go.
+
+The configuration is all in `application.properties` and should be self explanatory.
 
