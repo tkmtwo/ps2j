@@ -1,6 +1,6 @@
 = ps2j - PubSub To JSON
 
-A very narrowly scoped...
+A very narrowly scoped sample project to extract escaped JSON data and take care of some message routing.
 
 
 == Challenge
@@ -46,7 +46,6 @@ For this project, some Three Stooges data will serve as a test bed:
 {  "Id": "7",  "FirstName": "Samuel",  "LastName": "Horwitz",  "Nickname": "Shemp",  "Salary": "100",  "IngestionTime": "1970-01-01T00:00:00"}
 {  "Id": "7",  "FirstName": "Samuel",  "LastName": "Horwitz",  "Nickname": "Shemp",  "Salary": "120",  "IngestionTime": "1991-01-01T00:00:00"}
 ----
-
 
 
 
